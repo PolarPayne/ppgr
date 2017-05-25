@@ -26,7 +26,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     set -v
 
-    echo "For readme see `GitHub <https://github.com/PolarPayne/ppgr>`_." > README
+    echo 'For readme see `GitHub <https://github.com/PolarPayne/ppgr>`_.' > README
 
     # update and add version, tag it, and push it
     git stash
