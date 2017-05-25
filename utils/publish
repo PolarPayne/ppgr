@@ -26,8 +26,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     pandoc --from=markdown --to=plain README.md -o README
 
     # update and add version, tag it, and push it
-    echo "$VERSION" > VERSION
     git stash
+    echo "$VERSION" > VERSION
     git add VERSION
     git commit -m "Updated version to $VERSION"
     git tag "$VERSION"
