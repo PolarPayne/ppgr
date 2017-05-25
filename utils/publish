@@ -22,8 +22,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     set -v
 
-    # convert README to plain text (pypi doesn't supprt markdown)
-    pandoc --from=markdown --to=plain README.md -o README
+    # convert README.md (pypi does not support markdown)
+    pandoc --from=markdown --to=rst README.md -o README
 
     # update and add version, tag it, and push it
     git stash
