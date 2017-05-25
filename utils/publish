@@ -2,6 +2,11 @@
 
 set -ue
 
+function clean() {
+    rm -f README
+}
+trap clean EXIT
+
 clear
 
 git status
@@ -36,8 +41,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     # upload to pypi
     python3 setup.py sdist upload -r pypi
-
-    rm -f README
 else
     echo "aborting..."
     exit 1
