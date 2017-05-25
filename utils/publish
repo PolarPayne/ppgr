@@ -23,8 +23,13 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     git tag "$VERSION"
     git push --tags origin master
 
+    # convert README to reStructuredText (pypi doesn't supprt markdown)
+    pandoc --from=markdown --to=rst README.md -o README
+
     # upload to pypi
     python3 setup.py sdist upload -r pypi
+
+    rm -f README
 else
     echo "aborting..."
 fi
