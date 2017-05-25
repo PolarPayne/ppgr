@@ -2,6 +2,10 @@ import shutil
 import sys
 
 
+def terminal_size():
+    return shutil.get_terminal_size()
+
+
 class Screen:
     _braille_base = 0x2800
     _braille_dot = (
@@ -34,7 +38,7 @@ class Screen:
     @width.setter
     def width(self, width):
         if width is None:
-            width, _ = shutil.get_terminal_size()
+            width, _ = terminal_size()
             width *= Screen.braille_width
         width -= width % Screen.braille_width
 
@@ -48,7 +52,7 @@ class Screen:
     @height.setter
     def height(self, height):
         if height is None:
-            _, height = shutil.get_terminal_size()
+            _, height = terminal_size()
             height *= Screen.braille_height
         height -= height % Screen.braille_height
 

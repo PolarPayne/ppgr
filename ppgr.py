@@ -7,7 +7,7 @@ import sys
 from contextlib import contextmanager
 from collections import namedtuple
 
-from screen import Screen as Canvas
+import screen
 
 Point = namedtuple("Point", ("x", "y"))
 
@@ -47,7 +47,7 @@ class PPGR:
         self.limit = limit
 
         self._ps = []
-        self._canvas = Canvas()
+        self._canvas = screen.Screen()
         self._t = 0
 
         self._max_x = None
@@ -66,7 +66,7 @@ class PPGR:
         if min_y is None:
             min_y = self._min_y
 
-        w, h = d.getTerminalSize()
+        w, h = screen.terminal_size()
 
         try:
             x_fact = w / (max_x - min_x)
