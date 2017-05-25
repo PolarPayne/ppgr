@@ -1,19 +1,29 @@
 #!/bin/bash
 
-set -vue
+set -ue
 
-# activate virtualenv
-source venv/bin/activate
+clear
+git status
+echo
+read -p "Are you sure you wish to publish version=$VERSION? [y/N] " -n 1 -r
+echo
 
-# check that the repo is "clean"
-git diff-index --quiet HEAD
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    # activate virtualenv
+    source venv/bin/activate
 
-# update and add version, tag it, and push it
-echo "$VERSION" > VERSION
-git add VERSION
-git commit -m "Updated version to $VERSION"
-git tag "$VERSION"
-git push --tags origin master
+    set -v
 
-# upload to pypi
-python3 setup.py sdist upload -r pypi
+    # update and add version, tag it, and push it
+    echo "$VERSION" > VERSION
+    git add VERSION
+    git commit -m "Updated version to $VERSION"
+    git tag "$VERSION"
+    git push --tags origin master
+
+    # upload to pypi
+    python3 setup.py sdist upload -r pypi
+else
+    echo "aborting..."
+fi
+
