@@ -7,8 +7,7 @@ import sys
 from contextlib import contextmanager
 from collections import namedtuple
 
-# reimplement (with more speed, and color support)
-import drawille as d
+from screen import Screen as Canvas
 
 Point = namedtuple("Point", ("x", "y"))
 
@@ -48,7 +47,7 @@ class PPGR:
         self.limit = limit
 
         self._ps = []
-        self._canvas = d.Canvas()
+        self._canvas = Canvas()
         self._t = 0
 
         self._max_x = None
@@ -87,7 +86,7 @@ class PPGR:
 
         self._canvas.clear()
         for p in out:
-            self._canvas.set(*p)
+            self._canvas(*p)
 
         return out
 
@@ -157,7 +156,7 @@ class PPGR:
     def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False):
         self._prep_canvas(max_x, min_x, max_y, min_y)
         write_stdout(
-            self._canvas.frame(),
+            str(self._canvas),
             wait=None if no_animate else self.wait,
             end="\n")
 
