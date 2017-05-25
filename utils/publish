@@ -32,7 +32,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     git commit -m "Updated version to $VERSION"
     git tag "$VERSION"
     git push --tags origin master
-    git stash pop
+    git stash pop || true
 
     # upload to pypi
     python3 setup.py sdist upload -r pypi
