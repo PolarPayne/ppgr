@@ -3,9 +3,15 @@
 set -ue
 
 clear
+
 git status
+
+python setup.py check -mrs
+
 echo
-read -p "Are you sure you wish to publish version=$VERSION? [y/N] " -n 1 -r
+echo "this will update version from $(head -n 1 VERSION) to $VERSION"
+echo
+read -p "are you sure you wish to publish? [y/N] " -n 1 -r
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -16,15 +22,17 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     set -v
 
+    # convert README to plain text (pypi doesn't supprt markdown)
+    pandoc --from=markdown --to=plain README.md -o README
+
     # update and add version, tag it, and push it
     echo "$VERSION" > VERSION
+    git stash
     git add VERSION
     git commit -m "Updated version to $VERSION"
     git tag "$VERSION"
     git push --tags origin master
-
-    # convert README to reStructuredText (pypi doesn't supprt markdown)
-    pandoc --from=markdown --to=rst README.md -o README
+    git stash pop
 
     # upload to pypi
     python3 setup.py sdist upload -r pypi
@@ -32,5 +40,5 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     rm -f README
 else
     echo "aborting..."
+    exit 1
 fi
-

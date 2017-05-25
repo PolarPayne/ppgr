@@ -9,11 +9,11 @@
 * Histograms
 * Bar graphs?
 * Labels
-  * each data set (if using colors)
-  * x and y axes
+    * each data set (if using colors)
+    * x and y axes
 * Basic statistics
-  * min
-  * max
-  * avg
-  * med
-  * mean
+    * min
+    * max
+    * avg
+    * med
+    * mean
