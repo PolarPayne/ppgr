@@ -10,7 +10,7 @@ setup(
     author_email="maxremming@gmail.com",
     url="https://github.com/PolarPayne/ppgr",
     download_url="https://github.com/PolarPayne/ppgr/archive/0.1.0.tar.gz",
-    license="MIT"
+    license="MIT",
     keywords=["cli", "graphing"],
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -20,5 +20,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Topic :: Scientific/Engineering :: Visualization",
         "Topic :: Utilities"
-    ],
+    ]
 )
