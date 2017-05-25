@@ -47,7 +47,7 @@ class PPGR:
         self.limit = limit
 
         self._ps = []
-        self._canvas = screen.Screen()
+        self._canvas = screen.Screen(to_int=round)
         self._t = 0
 
         self._max_x = None
@@ -82,9 +82,9 @@ class PPGR:
         for i in self._ps:
             out.append(Point(
                 (i.x - min_x) * x_fact,
-                -((i.y - min_y) * y_fact)))
+                h - ((i.y - min_y) * y_fact)))
 
-        self._canvas.clear()
+        self._canvas.size = None, None
         for p in out:
             self._canvas(*p)
 
@@ -137,7 +137,7 @@ class PPGR:
 
         if self.limit is not None:
             old_len = len(self._ps)
-            
+
             # store at most limit points
             self._ps[:] = self._ps[len(self._ps) - self.limit:]
 

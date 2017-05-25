@@ -3,7 +3,10 @@ import sys
 
 
 def terminal_size():
-    return shutil.get_terminal_size()
+    w, h = shutil.get_terminal_size()
+    w *= Screen.braille_width
+    h *= Screen.braille_height
+    return w, h
 
 
 class Screen:
@@ -39,7 +42,6 @@ class Screen:
     def width(self, width):
         if width is None:
             width, _ = terminal_size()
-            width *= Screen.braille_width
         width -= width % Screen.braille_width
 
         self._width = width // Screen.braille_width
@@ -53,7 +55,6 @@ class Screen:
     def height(self, height):
         if height is None:
             _, height = terminal_size()
-            height *= Screen.braille_height
         height -= height % Screen.braille_height
 
         self._height = height // Screen.braille_height
@@ -74,11 +75,18 @@ class Screen:
         self._screen = [[Screen._braille_base for _ in range(self._width)] for _ in range(self._height)]
 
     def __call__(self, x, y, mode=True):
+        x, y = self._round(x), self._round(y)
+
+        # skip all points that are outside of the screen
+        if x >= self.width or x < 0:
+            return
+        if y >= self.height or y < 0:
+            return
+
         px, py = x // Screen.braille_width, y // Screen.braille_height
-        px, py = self._round(px), self._round(py)
         sp = Screen._braille_subpixel(
-            self._round(x % Screen.braille_width),
-            self._round(y % Screen.braille_height))
+            x % Screen.braille_width,
+            y % Screen.braille_height)
 
         if mode is True:
             # turn x, y on
