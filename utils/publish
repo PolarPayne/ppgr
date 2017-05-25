@@ -10,7 +10,9 @@ echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     # activate virtualenv
+    set +u
     source venv/bin/activate
+    set -u
 
     set -v
 
