@@ -1,15 +1,18 @@
 from distutils.core import setup
 
 
+with open("VERSION", "r") as f:
+    VERSION = f.readline().strip()
+
 setup(
     name="ppgr",
     packages=["ppgr"],
-    version="0.1.0",
+    version=VERSION,
     description="Python Piped GRapher",
     author="Maximilian Remming",
     author_email="maxremming@gmail.com",
     url="https://github.com/PolarPayne/ppgr",
-    download_url="https://github.com/PolarPayne/ppgr/archive/0.1.0.tar.gz",
+    download_url="https://github.com/PolarPayne/ppgr/archive/{}.tar.gz".format(VERSION),
     license="MIT",
     keywords=["cli", "graphing"],
     classifiers=[
