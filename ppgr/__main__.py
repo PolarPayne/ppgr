@@ -4,7 +4,7 @@ import sys
 from .ppgr import PPGR, no_cursor
 
 
-def main():
+def _main():
     parser = argparse.ArgumentParser(
         description="terminal graphing tool that supports piped data with realtime updates")
 
@@ -65,7 +65,13 @@ def main():
         if argv.no_animate:
             ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y, True)
 
-try:
+
+def main():
+    try:
+        _main()
+    except KeyboardInterrupt:
+        sys.exit(0)
+
+
+if __name__ == "__main__":
     main()
-except KeyboardInterrupt:
-    sys.exit(0)
