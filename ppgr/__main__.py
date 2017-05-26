@@ -104,9 +104,9 @@ def _main():
         help=help_no_animate)
     parser.add_argument(
         "-i", "--input",
-        nargs="*",
+        nargs="+",
         type=argparse.FileType("r"),
-        default=["-"],
+        default=[sys.stdin],
         help=help_input)
 
     parser.add_argument(
