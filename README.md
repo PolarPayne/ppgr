@@ -4,19 +4,24 @@
 `ping -i 0.5 8.8.8.8 | sed -run 's/.*icmp_seq=([0-9]+).*time=([0-9.]+).*/\1 \2/p' | python -m ppgr --min-y 0`
 
 ## TODO
+(in a somewhat priority order)
+
 * Fix flickering
 * More and better documentation
-* Colors
-* Running average
-* Lines between points
-* Histograms
-* Bar graphs?
 * Labels
-    * each data set (if using colors)
     * x and y axes
-* Basic statistics
+    * each data set (if using colors)
+* Colors
+* Tests
+* Lines between points
+* Bar graphs?
+* Histograms
+* Running average
+* Basic statistics from all points (or data sets)
     * min
     * max
     * avg
     * med
     * mean
+* Support all (?) Python 3 versions
+* Support Python 2.7
