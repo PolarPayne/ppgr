@@ -89,14 +89,16 @@ class PPGR:
         return out
 
     def line(self, line):
-        line = map(float, line.strip().split())
-        a = list(reversed(list(line)))
-
+        # TODO: error handling and support for --fail-bad-line
         # TODO: add support for histograms (difficult?)
+
         f = {
             "a": lambda a: f["d"](a) if len(a) >= 2 else f["t"](a),
             "t": lambda a: Point(self._t, a.pop()),
             "d": lambda a: Point(a.pop(), a.pop())}
+
+        line = map(float, line.strip().split())
+        a = list(reversed(list(line)))
 
         # we need to keep track of how many points are added
         many = 0
