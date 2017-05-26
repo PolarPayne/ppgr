@@ -8,6 +8,10 @@ it with simply `pip install ppgr`.
 ## Examples
 `ping -i 0.5 8.8.8.8 | sed -run 's/.*icmp_seq=([0-9]+).*time=([0-9.]+).*/\1 \2/p' | ppgr --min-y 0`
 
+## Contributing
+All contributions are greatly appreciated. If you find any bugs or errors, or would simply like
+some feature, please create an issue in GitHub. Pull requests are also welcome.
+
 ## TODO
 (in a somewhat priority order)
 
