@@ -1,5 +1,8 @@
 # ppgr (Python Piped GRapher)
 
+## Examples
+`ping -i 0.5 8.8.8.8 | sed -run 's/.*icmp_seq=([0-9]+).*time=([0-9.]+).*/\1 \2/p' | python -m ppgr --min-y 0`
+
 ## TODO
 * Fix flickering
 * More and better documentation
