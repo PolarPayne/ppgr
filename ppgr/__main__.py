@@ -64,7 +64,7 @@ help_min_y = """
 """
 
 
-def _main():
+def main():
     parser = argparse.ArgumentParser(
         prog="ppgr",
         # usage=usage,
@@ -136,21 +136,18 @@ def _main():
         argv.time_scale,
         argv.limit)
 
-    with no_cursor():
-        for f in argv.input:
-            for line in f:
-                ppgr.line(line)
-                if not argv.no_animate:
-                    ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y)
-            if argv.no_animate:
-                ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y, True)
-
-
-def main():
     try:
-        _main()
+        with no_cursor():
+            for f in argv.input:
+                for line in f:
+                    ppgr.line(line)
+                    if argv.no_animate:
+                        continue
+                    ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y)
     except KeyboardInterrupt:
-        sys.exit(0)
+        pass
+    finally:
+        ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y, True)
 
 
 if __name__ == "__main__":
