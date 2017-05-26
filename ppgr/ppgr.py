@@ -30,10 +30,7 @@ def no_cursor():
 
 
 class PPGR:
-    def __init__(self, format=None, fail_bad_line=False, wait=None, time_scale=None, limit=None):
-        if format is None:
-            format = ["a"]
-
+    def __init__(self, format, fail_bad_line=False, wait=None, time_scale=None, limit=None):
         self.format = format
         self.fail_bad_line = fail_bad_line
         self.wait = wait
@@ -54,6 +51,8 @@ class PPGR:
         self._min_y = None
 
     def _prep_canvas(self, max_x=None, min_x=None, max_y=None, min_y=None):
+        """preps the canvas so that it can be drawn"""
+
         if max_x is None:
             max_x = self._max_x
         if min_x is None:
@@ -68,12 +67,12 @@ class PPGR:
 
         try:
             x_fact = w / (max_x - min_x)
-        except ZeroDivisionError:
+        except (ZeroDivisionError, TypeError):
             x_fact = 1
 
         try:
             y_fact = h / (max_y - min_y)
-        except ZeroDivisionError:
+        except (ZeroDivisionError, TypeError):
             y_fact = 1
 
         out = []
@@ -88,29 +87,9 @@ class PPGR:
 
         return out
 
-    def line(self, line):
-        # TODO: error handling and support for --fail-bad-line
-        # TODO: add support for histograms (difficult?)
+    def _max_min(self, many):
+        """updates mins and maxes based on the last `many` points"""
 
-        f = {
-            "a": lambda a: f["d"](a) if len(a) >= 2 else f["t"](a),
-            "t": lambda a: Point(self._t, a.pop()),
-            "d": lambda a: Point(a.pop(), a.pop())}
-
-        line = map(float, line.strip().split())
-        a = list(reversed(list(line)))
-
-        # we need to keep track of how many points are added
-        many = 0
-        for i in self.format:
-            if i == "s":
-                a.pop()
-                continue
-            self._ps.append(f[i](a))
-            many += 1
-
-        # keep track of mins and maxs while reading data
-        # it's faster that calculcating mins and maxs everytime
         for i in range(many):
             last = self._ps[-(many)]
 
@@ -135,23 +114,70 @@ class PPGR:
             if self._min_y > last.y:
                 self._min_y = last.y
 
-        if self.limit is not None:
-            old_len = len(self._ps)
+    def _drop_extra(self):
+        """drops extra points and recalculates mins and maxes if limit is set"""
 
-            # store at most limit points
-            self._ps[:] = self._ps[len(self._ps) - self.limit:]
+        if self.limit is None:
+            return
 
-            # recalculate mins and maxs if the some items were removed
-            if old_len > len(self._ps):
-                self._max_x = max(map(lambda p: p.x, self._ps))
-                self._min_x = min(map(lambda p: p.x, self._ps))
-                self._max_y = max(map(lambda p: p.y, self._ps))
-                self._min_y = min(map(lambda p: p.y, self._ps))
+        old_len = len(self._ps)
 
+        # store at most limit points
+        self._ps[:] = self._ps[len(self._ps) - self.limit:]
+
+        # recalculate mins and maxs if the some items were removed
+        if old_len > len(self._ps):
+            self._max_x = max(map(lambda p: p.x, self._ps))
+            self._min_x = min(map(lambda p: p.x, self._ps))
+            self._max_y = max(map(lambda p: p.y, self._ps))
+            self._min_y = min(map(lambda p: p.y, self._ps))
+
+    def _update_t(self):
         if self.time_scale is None:
             self._t = time.monotonic() - self._t0
         else:
             self._t += self.time_scale
+
+    def line(self, line):
+        # TODO better error handling
+        # TODO better support for --fail-bad-line
+        # TODO add support for histograms (difficult?)
+        f = {
+            "a": lambda a: f["d"](a) if len(a) >= 2 else f["t"](a),
+            "t": lambda a: Point(self._t, a.pop()),
+            "d": lambda a: Point(a.pop(), a.pop())}
+
+        _line = line
+
+        try:
+            line = list(map(float, line.strip().split()))
+        except (ValueError, TypeError) as e:
+            if self.fail_bad_line:
+                raise Exception("bad line: {}".format(_line))
+            else:
+                return
+
+        a = list(reversed(line))
+
+        # we need to keep track of how many points are added
+        many = 0
+        for i in self.format:
+            try:
+                if i == "s":
+                    a.pop()
+                    continue
+                self._ps.append(f[i](a))
+                many += 1
+            except IndexError as e:
+                if self.fail_bad_line:
+                    raise Exception("bad line: {} failed".format(_line))
+
+        # keep track of mins and maxs while reading data
+        # it's faster that calculcating mins and maxs everytime
+        self._max_min(many)
+
+        self._drop_extra()
+        self._update_t()
 
     def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False):
         self._prep_canvas(max_x, min_x, max_y, min_y)
