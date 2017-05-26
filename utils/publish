@@ -11,8 +11,6 @@ clear
 
 git status
 
-python setup.py check -ms
-
 echo
 echo "this will update version from $(head -n 1 VERSION) to $VERSION"
 echo
