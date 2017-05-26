@@ -28,7 +28,8 @@ fail if input line can't be parsed (currently does nothing)
 """
 
 help_wait = """
-wait at least N milliseconds between frames
+wait at least N milliseconds between frames,
+especially useful when reading from a file and an animation is desired
 """
 
 help_time_scale = """
