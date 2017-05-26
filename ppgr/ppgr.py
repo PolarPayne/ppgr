@@ -1,32 +1,12 @@
 import time
-import sys
 
-from contextlib import contextmanager
 from collections import namedtuple
 
+from .terminal import write
 from .screen import Screen, terminal_size
 
 
 Point = namedtuple("Point", ("x", "y"))
-
-
-def write_stdout(s="", wait=None, clear=True, flush=True, end=""):
-    if clear:
-        sys.stdout.write("\x1b[2J\x1b[H")
-    sys.stdout.write(s + end)
-    if flush:
-        sys.stdout.flush()
-    if wait is not None:
-        time.sleep(wait)
-
-
-@contextmanager
-def no_cursor():
-    write_stdout("\x1b[?25l", clear=False)
-    try:
-        yield
-    finally:
-        write_stdout("\x1b[?25h", clear=False)
 
 
 class PPGR:
@@ -181,7 +161,7 @@ class PPGR:
 
     def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False):
         self._prep_canvas(max_x, min_x, max_y, min_y)
-        write_stdout(
+        write(
             str(self._canvas),
             wait=None if no_animate else self.wait,
             end="\n")

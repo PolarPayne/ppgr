@@ -1,7 +1,8 @@
 import argparse
 import sys
 
-from .ppgr import PPGR, no_cursor
+from .ppgr import PPGR
+from .terminal import no_cursor
 
 usage = """%(prog)s [-w N] [-t T] [-l L] [-s] [-i INPUT]"""
 
