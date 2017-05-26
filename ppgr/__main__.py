@@ -3,8 +3,7 @@ import sys
 
 from .ppgr import PPGR, no_cursor
 
-usage = """%(prog)s [-w N] [-t T] [-l L] [-s] [-i INPUT]
-"""
+usage = """%(prog)s [-w N] [-t T] [-l L] [-s] [-i INPUT]"""
 
 description = """
 Python Piped GRapher -
@@ -67,7 +66,7 @@ help_min_y = """
 def _main():
     parser = argparse.ArgumentParser(
         prog="ppgr",
-        usage=usage,
+        # usage=usage,
         description=description)
 
     parser.add_argument(
