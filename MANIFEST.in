@@ -1,2 +1,2 @@
-include VERSION LICENSE README setup.cfg setup.py
+include VERSION LICENSE README setup.py
 recursive-include ppgr *.py
