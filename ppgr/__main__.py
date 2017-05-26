@@ -47,7 +47,7 @@ draw a static image from the input
 """
 
 help_input = """
-file to read the data from (defaults to stdin)
+files to read the data from (defaults to stdin)
 """
 
 help_max_x = """
@@ -104,8 +104,9 @@ def _main():
         help=help_no_animate)
     parser.add_argument(
         "-i", "--input",
+        nargs="*",
         type=argparse.FileType("r"),
-        default="-",
+        default=["-"],
         help=help_input)
 
     parser.add_argument(
@@ -135,12 +136,13 @@ def _main():
         argv.limit)
 
     with no_cursor():
-        for line in argv.input:
-            ppgr.line(line)
-            if not argv.no_animate:
-                ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y)
-        if argv.no_animate:
-            ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y, True)
+        for f in argv.input:
+            for line in f:
+                ppgr.line(line)
+                if not argv.no_animate:
+                    ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y)
+            if argv.no_animate:
+                ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y, True)
 
 
 def main():
