@@ -1,7 +1,6 @@
 import sys
-
-from time import sleep
 from contextlib import contextmanager
+from time import sleep
 
 
 def write(s="", wait=None, clear=True, flush=True, end="", stream=sys.stdout):

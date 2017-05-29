@@ -1,9 +1,8 @@
 import time
-
 from collections import namedtuple
 
-from .terminal import write
 from .screen import Screen
+from .terminal import write
 
 Point = namedtuple("Point", ("x", "y"))
 

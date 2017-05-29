@@ -1,6 +1,5 @@
 from distutils.core import setup
 
-
 with open("VERSION", "r") as f:
     VERSION = f.readline().strip()
 
