@@ -22,16 +22,12 @@ class Screen:
         h *= Screen.braille_height
         return w, h
 
-    def __init__(self, width=None, height=None, to_int=int):
-        self._width = 0
-        self._height = 0
+    def __init__(self, width=None, height=None, roundf=round):
+        self._width = 1
+        self._height = 1
+        self.size = width, height
 
-        self.width = width
-        self.height = height
-
-        self._round = to_int
-
-        self.clear()
+        self._round = roundf
 
     @property
     def width(self):
@@ -42,8 +38,13 @@ class Screen:
         if width is None:
             width, _ = Screen._terminal_size()
         width -= width % Screen.braille_width
+        width //= Screen.braille_width
 
-        self._width = width // Screen.braille_width
+        if width <= 0:
+            raise ValueError(
+                "Width must be larger than zero after convertion (it was {}).".format(width))
+
+        self._width = width
         self.clear()
 
     @property
@@ -55,8 +56,13 @@ class Screen:
         if height is None:
             _, height = Screen._terminal_size()
         height -= height % Screen.braille_height
+        height //= Screen.braille_height
 
-        self._height = height // Screen.braille_height
+        if height <= 0:
+            raise ValueError(
+                "Height must be larger than zero after convertion (it was {}).".format(height))
+
+        self._height = height
         self.clear()
 
     @property
@@ -67,8 +73,8 @@ class Screen:
     def size(self, width_height):
         try:
             self.width, self.height = width_height
-        except TypeError as e:
-            raise TypeError("Setting size requires an iterable with two values ({}).".format(e))
+        except TypeError:
+            raise TypeError("Setting size requires an iterable with two values.")
 
     def clear(self):
         self._screen = [[Screen._braille_base for _ in range(self._width)] for _ in range(self._height)]
@@ -76,7 +82,7 @@ class Screen:
     def __call__(self, x, y, mode=True):
         x, y = self._round(x), self._round(y)
 
-        # skip all points that are outside of the screen
+        # skip a point if it's outside of the screen
         if x >= self.width or x < 0:
             return
         if y >= self.height or y < 0:
@@ -87,6 +93,7 @@ class Screen:
             x % Screen.braille_width,
             y % Screen.braille_height)
 
+        # do note that we can't just test mode since bool(None) would be False
         if mode is True:
             # turn x, y on
             self._screen[py][px] |= sp

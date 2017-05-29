@@ -20,7 +20,7 @@ class PPGR:
         self.limit = limit
 
         self._ps = []
-        self._canvas = Screen(to_int=round)
+        self._canvas = Screen()
         self._t = 0
 
         self._max_x = None
@@ -145,7 +145,7 @@ class PPGR:
                     raise Exception("bad line: {} failed".format(_line))
 
         # keep track of mins and maxs while reading data
-        # it's faster that calculcating mins and maxs everytime
+        # it's faster than calculcating mins and maxs everytime
         self._max_min(many)
 
         self._drop_extra()
@@ -154,6 +154,6 @@ class PPGR:
     def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False, newline=False):
         self._prep_canvas(max_x, min_x, max_y, min_y)
         write(
-            str(self._canvas),
+            self._canvas,
             wait=None if no_animate else self.wait,
             end="\n" if newline else "")

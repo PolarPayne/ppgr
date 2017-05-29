@@ -8,7 +8,7 @@ def write(s="", wait=None, clear=True, flush=True, end="", stream=sys.stdout):
 
     if clear:
         stream.write("\x1b[2J\x1b[H")
-    stream.write(s + end)
+    stream.write(str(s) + end)
     if flush:
         stream.flush()
     if wait is not None:
