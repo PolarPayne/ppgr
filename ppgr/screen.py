@@ -2,11 +2,6 @@ import shutil
 import sys
 
 
-def terminal_size():
-    w, h = shutil.get_terminal_size()
-    w *= Screen.braille_width
-    h *= Screen.braille_height
-    return w, h
 
 
 class Screen:
@@ -22,6 +17,13 @@ class Screen:
     @staticmethod
     def _braille_subpixel(x, y):
         return Screen._braille_dot[y][x]
+    
+    @staticmethod
+    def terminal_size():
+        w, h = shutil.get_terminal_size()
+        w *= Screen.braille_width
+        h *= Screen.braille_height
+        return w, h
 
     def __init__(self, width=None, height=None, to_int=int):
         self._width = 0
@@ -41,7 +43,7 @@ class Screen:
     @width.setter
     def width(self, width):
         if width is None:
-            width, _ = terminal_size()
+            width, _ = Screen.terminal_size()
         width -= width % Screen.braille_width
 
         self._width = width // Screen.braille_width
@@ -54,7 +56,7 @@ class Screen:
     @height.setter
     def height(self, height):
         if height is None:
-            _, height = terminal_size()
+            _, height = Screen.terminal_size()
         height -= height % Screen.braille_height
 
         self._height = height // Screen.braille_height

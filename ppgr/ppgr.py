@@ -3,8 +3,7 @@ import time
 from collections import namedtuple
 
 from .terminal import write
-from .screen import Screen, terminal_size
-
+from .screen import Screen
 
 Point = namedtuple("Point", ("x", "y"))
 
@@ -43,7 +42,7 @@ class PPGR:
         if min_y is None:
             min_y = self._min_y
 
-        w, h = terminal_size()
+        w, h = Screen.terminal_size()
 
         try:
             x_fact = w / (max_x - min_x)
