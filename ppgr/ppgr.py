@@ -47,7 +47,8 @@ class PPGR:
             except (ZeroDivisionError, TypeError):
                 return 1
 
-        w, h = Screen.terminal_size()
+        self._canvas.size = None, None
+        w, h = self._canvas.size
         x_fact = fact(w, max_x, min_x)
         y_fact = fact(h, max_y, min_y)
 
@@ -56,7 +57,6 @@ class PPGR:
                 (p.x - min_x) * x_fact,
                 h - ((p.y - min_y) * y_fact))
 
-        self._canvas.size = None, None
         for p in map(f, self._ps):
             self._canvas(*p)
 
