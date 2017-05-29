@@ -155,5 +155,4 @@ class PPGR:
         self._prep_canvas(max_x, min_x, max_y, min_y)
         write(
             str(self._canvas),
-            wait=None if no_animate else self.wait,
-            end="\n")
+            wait=None if no_animate else self.wait)
