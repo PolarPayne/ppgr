@@ -14,7 +14,7 @@ Shows really nicely with what kind of inputs `ppgr` already excels at.
 `ping -i 0.5 8.8.8.8 | sed -run 's/.*icmp_seq=([0-9]+).*time=([0-9.]+).*/\1 \2/p' | ppgr --min-y 0`
 
 Not very useful without colors/lines between points.
-`bash -c "while true; do dig google.com reddit.com twitter.com | sed -run 's/.*Query time: ([0-9]+).*/\1/p' | tr '\n' ' '; echo; sleep 1; done" | python -m ppgr --format t t t`
+`bash -c "while true; do dig google.com reddit.com twitter.com | sed -run 's/.*Query time: ([0-9]+).*/\1/p' | tr '\n' ' '; echo; sleep 1; done" | ppgr --format t t t`
 
 
 ## Contributing
