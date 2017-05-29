@@ -19,13 +19,12 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
 ## TODO
 (in a somewhat priority order)
 
-* Fix flickering
 * More and better documentation
 * Labels
     * x and y axes
     * each data set (if using colors)
 * Colors
-    * for points (although it won't be perfect since there are up to 8 points per characters
+    * for points (although it won't be perfect since there are up to 8 "pixels" per characters
     * background
 * Tests
 * Lines between points
@@ -38,5 +37,6 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
     * avg
     * med
     * mean
-* Support all (?) Python 3 versions
-* Support Python 2.7
+* Support and test all major Python 3 versions (>=3.4 ???)
+* Support and test Python 2.7
+* Improve how points are drawn to screen (don't draw everythin again on every frame)
