@@ -110,7 +110,7 @@ class PPGR:
         self.screen = Screen()
         self.t = 0
 
-    def _prep_canvas(self, max_x=None, min_x=None, max_y=None, min_y=None):
+    def _prep_screen(self, max_x=None, min_x=None, max_y=None, min_y=None):
         """preps the canvas so that it can be drawn"""
 
         def f(l1, l2):
@@ -178,7 +178,7 @@ class PPGR:
         self._update_t()
 
     def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False, newline=False):
-        self._prep_canvas(max_x, min_x, max_y, min_y)
+        self._prep_screen(max_x, min_x, max_y, min_y)
         write(
             self.screen,
             wait=None if no_animate else self.wait,
