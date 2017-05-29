@@ -4,6 +4,8 @@ from time import sleep
 
 
 def write(s="", wait=None, clear=True, flush=True, end="", stream=sys.stdout):
+    """writing that defaults to flushing and clearing the screen, can also wait after writing"""
+
     if clear:
         stream.write("\x1b[2J\x1b[H")
     stream.write(s + end)
@@ -15,6 +17,8 @@ def write(s="", wait=None, clear=True, flush=True, end="", stream=sys.stdout):
 
 @contextmanager
 def no_cursor():
+    """contextmanager that hides the cursor in terminal"""
+
     write("\x1b[?25l", clear=False)
     try:
         yield
