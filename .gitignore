@@ -4,3 +4,8 @@ dist/
 MANIFEST
 
 venv/
+venv2/
+venv3/
+.venv/
+.venv2/
+.venv3/
