@@ -47,14 +47,29 @@ class Points:
         for p in self._ps:
             self._update(p)
 
+    def _over_limit(self):
+        return self.limit is not None and len(self._ps) > self.limit
+
+    def _remove_extra(self):
+        self._ps[:] = self._ps[len(self._ps) - self.limit:]
+        self._recalculate_bounds()
+
     def add(self, p):
         self._ps.append(p)
 
-        if self.limit is not None and len(self._ps) > self.limit:
-            self._ps[:] = self._ps[len(self._ps) - self.limit:]
-            self._recalculate_bounds()
+        if self._over_limit():
+            self._remove_extra()
         else:
             self._update(p)
+
+    def extend(self, ps):
+        self._ps.extend(ps)
+
+        if self._over_limit():
+            self._remove_extra()
+        else:
+            for p in self._ps[-len(ps):]:
+                self._update(p)
 
     def points(self):
         for p in self._ps:
@@ -148,19 +163,18 @@ class PPGR:
 
         a = list(reversed(line))
 
-        # we need to keep track of how many points are added
-        many = 0
+        out = []
         for i in self.format:
             try:
                 if i == "s":
                     a.pop()
                     continue
-                self.ps.add(f[i](a))
-                many += 1
+                out.append(f[i](a))
             except IndexError as e:
                 if self.fail_bad_line:
                     raise Exception("bad line: {} failed".format(_line))
 
+        self.ps.extend(out)
         self._update_t()
 
     def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False, newline=False):
