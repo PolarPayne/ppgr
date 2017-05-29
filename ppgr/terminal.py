@@ -1,5 +1,6 @@
 import sys
 
+from time import sleep
 from contextlib import contextmanager
 
 
@@ -10,7 +11,7 @@ def write(s="", wait=None, clear=True, flush=True, end="", stream=sys.stdout):
     if flush:
         stream.flush()
     if wait is not None:
-        time.sleep(wait)
+        sleep(wait)
 
 
 @contextmanager

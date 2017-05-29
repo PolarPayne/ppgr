@@ -42,29 +42,24 @@ class PPGR:
         if min_y is None:
             min_y = self._min_y
 
+        def fact(length, ma, mi):
+            try:
+                return length / (ma - mi)
+            except (ZeroDivisionError, TypeError):
+                return 1
+
         w, h = Screen.terminal_size()
+        x_fact = fact(w, max_x, min_x)
+        y_fact = fact(h, max_y, min_y)
 
-        try:
-            x_fact = w / (max_x - min_x)
-        except (ZeroDivisionError, TypeError):
-            x_fact = 1
-
-        try:
-            y_fact = h / (max_y - min_y)
-        except (ZeroDivisionError, TypeError):
-            y_fact = 1
-
-        out = []
-        for i in self._ps:
-            out.append(Point(
-                (i.x - min_x) * x_fact,
-                h - ((i.y - min_y) * y_fact)))
+        def f(p):
+            return Point(
+                (p.x - min_x) * x_fact,
+                h - ((p.y - min_y) * y_fact))
 
         self._canvas.size = None, None
-        for p in out:
+        for p in map(f, self._ps):
             self._canvas(*p)
-
-        return out
 
     def _max_min(self, many):
         """updates mins and maxes based on the last `many` points"""
@@ -81,7 +76,6 @@ class PPGR:
                 self._max_y = last.y
             if self._min_y is None:
                 self._min_y = last.y
-
 
             if self._max_x < last.x:
                 self._max_x = last.x

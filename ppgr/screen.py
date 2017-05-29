@@ -1,5 +1,4 @@
 import shutil
-import sys
 
 
 class Screen:
@@ -15,7 +14,7 @@ class Screen:
     @staticmethod
     def _braille_subpixel(x, y):
         return Screen._braille_dot[y][x]
-    
+
     @staticmethod
     def terminal_size():
         w, h = shutil.get_terminal_size()
