@@ -148,7 +148,7 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y, True)
+        ppgr.show(argv.max_x, argv.min_x, argv.max_y, argv.min_y, True, newline=True)
 
 
 if __name__ == "__main__":

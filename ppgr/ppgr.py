@@ -151,8 +151,9 @@ class PPGR:
         self._drop_extra()
         self._update_t()
 
-    def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False):
+    def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False, newline=False):
         self._prep_canvas(max_x, min_x, max_y, min_y)
         write(
             str(self._canvas),
-            wait=None if no_animate else self.wait)
+            wait=None if no_animate else self.wait,
+            end="\n" if newline else "")
