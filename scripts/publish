@@ -10,6 +10,7 @@ trap clean EXIT
 clear
 
 git status
+scripts/check
 
 echo
 echo "this will update version from $(head -n 1 VERSION) to $VERSION"

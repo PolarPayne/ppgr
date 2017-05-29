@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source venv/bin/activate
+
+set -ue
+
+sources="setup.py ppgr/*.py"
+
+flake8 setup.py $sources
+isort --check-only --line-width 119 $sources

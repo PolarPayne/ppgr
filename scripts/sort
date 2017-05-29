@@ -1,0 +1,3 @@
+#!/bin/bash
+
+isort --apply --line-width 119 setup.py ppgr/*.py
