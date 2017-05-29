@@ -10,6 +10,8 @@ trap clean EXIT
 clear
 
 git status
+git diff-index --quiet HEAD --
+
 scripts/check
 
 echo
@@ -19,22 +21,14 @@ read -p "are you sure you wish to publish? [y/N] " -n 1 -r
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    set +u
-    source venv/bin/activate
-    set -u
-
-    set -v
-
     echo 'For readme see `GitHub <https://github.com/PolarPayne/ppgr>`_.' > README
 
     # update and add version, tag it, and push it
-    git stash
     echo "$VERSION" > VERSION
     git add VERSION
     git commit -m "Updated version to $VERSION"
     git tag "$VERSION"
     git push --tags origin master
-    git stash pop || true
 
     # upload to pypi
     python3 setup.py sdist upload -r pypi

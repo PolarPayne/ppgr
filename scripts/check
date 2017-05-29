@@ -1,7 +1,4 @@
 #!/bin/bash
-
-source venv/bin/activate
-
 set -ue
 
 sources="setup.py ppgr/*.py"
