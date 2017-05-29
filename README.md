@@ -3,8 +3,7 @@
 ## Installing
 `ppgr` is available through pip, installation is as easy as `pip install ppgr`.
 
-Although `ppgr` is currently only tested with Python 3.5 on Ubuntu 16.04, but it should work on all
-machines that have a relatively new version of Python 3 and a sane-ish terminal emulator.
+`ppgr` should work with all machines that have Python 3.4 or newer and a sane-ish terminal emulator.
 
 *DO NOT* expect the APIs (CLI or otherwise) to be stable during the 0.x.x versions.
 I will follow semantic versioning to at least some degree.
@@ -25,13 +24,13 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
 (in a somewhat priority order)
 
 * More and better documentation
+* Tests
 * Labels
     * x and y axes
     * each data set (if using colors)
 * Colors
     * for points (although it won't be perfect since there are up to 8 "pixels" per characters
     * background
-* Tests
 * Lines between points
 * Bar graphs?
 * Histograms
@@ -42,6 +41,5 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
     * avg
     * med
     * mean
-* Support and test all major Python 3 versions (>=3.4 ???)
-* Support and test Python 2.7
+* Support and test Python 2.7 (?)
 * Improve how points are drawn to screen (don't draw everythin again on every frame)
