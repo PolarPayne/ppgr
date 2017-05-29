@@ -7,84 +7,102 @@ from .terminal import write
 Point = namedtuple("Point", ("x", "y"))
 
 
+class MinMax:
+    def __init__(self, min_x=None, min_y=None, max_x=None, max_y=None):
+        self.min_x = min_x
+        self.min_y = min_y
+        self.max_x = max_x
+        self.max_y = max_y
+
+    def update(self, p):
+        if self.min_x is None:
+            self.min_x = p.x
+        if self.min_y is None:
+            self.min_y = p.y
+
+        if self.max_x is None:
+            self.max_x = p.x
+        if self.max_y is None:
+            self.max_y = p.y
+
+        if self.min_x > p.x:
+            self.min_x = p.x
+        if self.min_y > p.y:
+            self.min_y = p.y
+
+        if self.max_x < p.x:
+            self.max_x = p.x
+        if self.max_y < p.y:
+            self.max_y = p.y
+
+    def recalculate(self, ps):
+        self.min_x = None
+        self.min_y = None
+        self.max_x = None
+        self.max_y = None
+
+        for p in ps:
+            self.update(p)
+
+
 class PPGR:
     def __init__(self, format, fail_bad_line=False, wait=None, time_scale=None, limit=None):
         self.format = format
         self.fail_bad_line = fail_bad_line
+        self.limit = limit
+
         self.wait = wait
         if self.wait is not None:
             self.wait /= 1000
+
         self.time_scale = time_scale
         if self.time_scale is None:
-            self._t0 = time.monotonic()
-        self.limit = limit
+            self.t0 = time.monotonic()
 
-        self._ps = []
-        self._canvas = Screen()
-        self._t = 0
-
-        self._max_x = None
-        self._min_x = None
-        self._max_y = None
-        self._min_y = None
+        self.ps = []
+        self.screen = Screen()
+        self.t = 0
+        self.min_max = MinMax()
 
     def _prep_canvas(self, max_x=None, min_x=None, max_y=None, min_y=None):
         """preps the canvas so that it can be drawn"""
 
-        if max_x is None:
-            max_x = self._max_x
-        if min_x is None:
-            min_x = self._min_x
-
-        if max_y is None:
-            max_y = self._max_y
-        if min_y is None:
-            min_y = self._min_y
-
-        def fact(length, ma, mi):
+        def f(length, ma, mi):
             try:
                 return length / (ma - mi)
             except (ZeroDivisionError, TypeError):
                 return 1
 
-        self._canvas.size = None, None
-        w, h = self._canvas.size
-        x_fact = fact(w, max_x, min_x)
-        y_fact = fact(h, max_y, min_y)
-
-        def f(p):
+        def g(p):
             return Point(
-                (p.x - min_x) * x_fact,
-                h - ((p.y - min_y) * y_fact))
+                (p.x - low.x) * fact.x,
+                size.y - ((p.y - low.y) * fact.y))
 
-        for p in map(f, self._ps):
-            self._canvas(*p)
+        if min_x is None:
+            min_x = self.min_max.min_x
+        if min_y is None:
+            min_y = self.min_max.min_y
+        low = Point(min_x, min_y)
+
+        if max_x is None:
+            max_x = self.min_max.max_x
+        if max_y is None:
+            max_y = self.min_max.max_y
+        high = Point(max_x, max_y)
+
+        self.screen.size = None, None
+        size = Point(*self.screen.size)
+        fact = Point(f(size.x, high.x, low.x), f(size.y, high.y, low.y))
+
+        for p in map(g, self.ps):
+            self.screen(*p)
 
     def _max_min(self, many):
         """updates mins and maxes based on the last `many` points"""
 
         for i in range(many):
-            last = self._ps[-(many)]
-
-            if self._max_x is None:
-                self._max_x = last.x
-            if self._min_x is None:
-                self._min_x = last.x
-
-            if self._max_y is None:
-                self._max_y = last.y
-            if self._min_y is None:
-                self._min_y = last.y
-
-            if self._max_x < last.x:
-                self._max_x = last.x
-            if self._min_x > last.x:
-                self._min_x = last.x
-
-            if self._max_y < last.y:
-                self._max_y = last.y
-            if self._min_y > last.y:
-                self._min_y = last.y
+            last = self.ps[-(many)]
+            self.min_max.update(last)
 
     def _drop_extra(self):
         """drops extra points and recalculates mins and maxes if limit is set"""
@@ -92,23 +110,20 @@ class PPGR:
         if self.limit is None:
             return
 
-        old_len = len(self._ps)
+        old_len = len(self.ps)
 
         # store at most limit points
-        self._ps[:] = self._ps[len(self._ps) - self.limit:]
+        self.ps[:] = self.ps[len(self.ps) - self.limit:]
 
         # recalculate mins and maxs if the some items were removed
-        if old_len > len(self._ps):
-            self._max_x = max(map(lambda p: p.x, self._ps))
-            self._min_x = min(map(lambda p: p.x, self._ps))
-            self._max_y = max(map(lambda p: p.y, self._ps))
-            self._min_y = min(map(lambda p: p.y, self._ps))
+        if old_len > len(self.ps):
+            self.min_max.recalculate(self.ps)
 
     def _update_t(self):
         if self.time_scale is None:
-            self._t = time.monotonic() - self._t0
+            self.t = time.monotonic() - self.t0
         else:
-            self._t += self.time_scale
+            self.t += self.time_scale
 
     def line(self, line):
         # TODO better error handling
@@ -116,7 +131,7 @@ class PPGR:
         # TODO add support for histograms (difficult?)
         f = {
             "a": lambda a: f["d"](a) if len(a) >= 2 else f["t"](a),
-            "t": lambda a: Point(self._t, a.pop()),
+            "t": lambda a: Point(self.t, a.pop()),
             "d": lambda a: Point(a.pop(), a.pop())}
 
         _line = line
@@ -138,7 +153,7 @@ class PPGR:
                 if i == "s":
                     a.pop()
                     continue
-                self._ps.append(f[i](a))
+                self.ps.append(f[i](a))
                 many += 1
             except IndexError as e:
                 if self.fail_bad_line:
@@ -154,6 +169,6 @@ class PPGR:
     def show(self, max_x=None, min_x=None, max_y=None, min_y=None, no_animate=False, newline=False):
         self._prep_canvas(max_x, min_x, max_y, min_y)
         write(
-            self._canvas,
+            self.screen,
             wait=None if no_animate else self.wait,
             end="\n" if newline else "")
