@@ -1,5 +1,5 @@
-from time import monotonic
 from collections import namedtuple
+from time import monotonic
 
 from .screen import Screen
 from .terminal import write
@@ -77,10 +77,10 @@ class Points:
 
     def bounds(self, b=None):
         if len(self._ps) > 0:
-            assert(4 == len(list(filter(
-                lambda x: x is not None,
-                (self._min_x, self._min_y,
-                self._max_x, self._max_y)))))
+            assert(4 == len(list(
+                filter(lambda x: x is not None, (
+                    self._min_x, self._min_y,
+                    self._max_x, self._max_y)))))
         elif len(self._ps) == 0:
             return Rectangle(0, 0, 0, 0)
 
