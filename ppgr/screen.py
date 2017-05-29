@@ -2,8 +2,6 @@ import shutil
 import sys
 
 
-
-
 class Screen:
     _braille_base = 0x2800
     _braille_dot = (
