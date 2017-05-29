@@ -1,4 +1,4 @@
-# ppgr (Python Piped GRapher)
+# ppgr (Python Piped GRapher) [![Build Status](https://travis-ci.org/PolarPayne/ppgr.svg?branch=master)](https://travis-ci.org/PolarPayne/ppgr)
 
 ## Installing
 `ppgr` is available through pip, installation is as easy as `pip install ppgr`.
