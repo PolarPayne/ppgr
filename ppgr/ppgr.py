@@ -10,6 +10,9 @@ Rectangle = namedtuple("Rectangle", ("x1", "y1", "x2", "y2"))
 
 class Points:
     def __init__(self, limit=None):
+        if limit is not None and limit <= 0:
+            raise ValueError("Limit must be larger than 0.")
+
         self.limit = limit
 
         self._ps = []
@@ -17,6 +20,9 @@ class Points:
         self._min_y = None
         self._max_x = None
         self._max_y = None
+
+    def __len__(self):
+        return len(self._ps)
 
     def _update(self, p):
         if self._min_x is None:
@@ -48,7 +54,7 @@ class Points:
             self._update(p)
 
     def _over_limit(self):
-        return self.limit is not None and len(self._ps) > self.limit
+        return self.limit is not None and len(self) > self.limit
 
     def _remove_extra(self):
         self._ps[:] = self._ps[len(self._ps) - self.limit:]
