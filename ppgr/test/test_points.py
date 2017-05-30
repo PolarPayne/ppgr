@@ -1,6 +1,7 @@
-from ..ppgr import Points, Point
-from hypothesis import given
 from hypothesis import strategies as st
+from hypothesis import given
+
+from ..ppgr import Point, Points
 
 
 def to_points(ps):
