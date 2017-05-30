@@ -3,6 +3,9 @@ __pycache__/
 dist/
 MANIFEST
 
+.cache
+.hypothesis
+
 venv/
 venv2/
 venv3/
