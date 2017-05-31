@@ -1,8 +1,5 @@
 from collections import namedtuple
-try:
-    from time import monotonic
-except ImportError:
-    from time import clock as monotonic
+from time import monotonic
 
 from .screen import Screen
 from .terminal import write
