@@ -2,14 +2,14 @@ from time import monotonic
 
 from .screen import Screen
 from .terminal import write
-from .utils import Point, Points, Rectangle
+from .utils import Point, PointSet, Rectangle
 
 
 class PPGR:
     def __init__(self, line_format, fail_bad_line=False, wait=None, time_scale=None, limit=None):
         self.format = line_format
         self.fail_bad_line = fail_bad_line
-        self.ps = Points(limit)
+        self.ps = PointSet(limit)
 
         self.wait = wait
         if self.wait is not None:

@@ -4,7 +4,7 @@ Point = namedtuple("Point", ("x", "y"))
 Rectangle = namedtuple("Rectangle", ("x1", "y1", "x2", "y2"))
 
 
-class Points:
+class PointSet:
     def __init__(self, limit=None):
         if limit is not None and limit <= 0:
             raise ValueError("Limit must be larger than 0.")
