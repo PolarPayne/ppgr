@@ -5,6 +5,9 @@ Rectangle = namedtuple("Rectangle", ("x1", "y1", "x2", "y2"))
 
 
 class PointSet:
+    """Doesn't really make send to call this a set now does it.
+    Well it will be a set, just not yet. TODO"""
+
     def __init__(self, limit=None):
         if limit is not None and limit <= 0:
             raise ValueError("Limit must be larger than 0.")
