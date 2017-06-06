@@ -1,8 +1,6 @@
 #!/bin/bash
 set -ue
 
-sources="setup.py ppgr/*.py"
-
 flake8 setup.py ppgr
 isort --check-only --line-width 119 ppgr/**/*.py
 pytest ppgr
