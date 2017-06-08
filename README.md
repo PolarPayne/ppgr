@@ -28,6 +28,8 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
 (in a somewhat priority order)
 
 * More and better documentation
+* Do a few simple examples with asciinema
+* Create a simple page to ppgr.github.io
 * Tests
 * Labels
     * x and y axes
