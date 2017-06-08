@@ -30,6 +30,7 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
 * More and better documentation
 * Do a few simple examples with asciinema
 * Create a simple page to ppgr.github.io
+* More examples
 * Tests
 * Labels
     * x and y axes
