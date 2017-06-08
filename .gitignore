@@ -5,6 +5,7 @@ MANIFEST
 
 .cache
 .hypothesis
+.coverage
 
 venv/
 venv2/
