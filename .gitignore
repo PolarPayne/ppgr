@@ -8,3 +8,5 @@ MANIFEST
 .coverage
 
 venv/
+
+.vscode/
