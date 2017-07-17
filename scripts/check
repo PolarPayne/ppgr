@@ -1,6 +1,0 @@
-#!/bin/bash
-set -ue
-
-flake8 setup.py test/
-isort --check-only --line-width 119 ppgr/*.py
-pytest test/

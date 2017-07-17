@@ -1,5 +1,0 @@
-#!/bin/bash
-
-set -ue
-
-isort --apply --line-width 119 setup.py ppgr/*.py

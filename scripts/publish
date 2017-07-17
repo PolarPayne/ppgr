@@ -7,12 +7,8 @@ function clean() {
 }
 trap clean EXIT
 
-clear
-
 git status
 git diff-index --quiet HEAD --
-
-scripts/check
 
 echo
 echo "this will update version from $(head -n 1 VERSION) to $VERSION"
@@ -31,7 +27,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     git push --tags origin master
 
     # upload to pypi
-    python3 setup.py sdist upload -r pypi
+    "${bin}/python3" setup.py sdist upload -r pypi
 else
     echo "aborting..."
     exit 1
