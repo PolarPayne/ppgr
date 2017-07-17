@@ -1,7 +1,7 @@
 from hypothesis import strategies as st
 from hypothesis import given
 
-from ppgr.utils import Point, PointSet
+from ppgr.utils import Point, PointList
 
 
 def to_points(ps):
@@ -12,7 +12,7 @@ def to_points(ps):
     limit=st.integers(min_value=1),
     ps=st.lists(st.tuples(st.floats(), st.floats())))
 def test_points_limit(limit, ps):
-    points = PointSet(limit)
+    points = PointList(limit)
     points.extend(to_points(ps))
 
     assert(len(points) <= limit)
@@ -20,7 +20,7 @@ def test_points_limit(limit, ps):
 
 @given(st.lists(st.tuples(st.floats(allow_nan=False), st.floats(allow_nan=False))))
 def test_points_maxs(ps):
-    points = PointSet()
+    points = PointList()
     ps = to_points(ps)
 
     try:
@@ -43,7 +43,7 @@ def test_points_maxs(ps):
 
 @given(st.lists(st.tuples(st.floats(allow_nan=False), st.floats(allow_nan=False))))
 def test_points_mins(ps):
-    points = PointSet()
+    points = PointList()
     ps = to_points(ps)
 
     try:
@@ -66,7 +66,7 @@ def test_points_mins(ps):
 
 @given(st.lists(st.tuples(st.floats(allow_nan=False), st.floats(allow_nan=False))))
 def test_points_nothing_lost(ps):
-    points = PointSet()
+    points = PointList()
     ps = to_points(ps)
 
     points.extend(ps)

@@ -4,12 +4,9 @@ Point = namedtuple("Point", ("x", "y"))
 Rectangle = namedtuple("Rectangle", ("x1", "y1", "x2", "y2"))
 
 
-class PointSet:
+class PointList:
     """
-    More like a "LimitableOrderedPointSet", but that just sounds too much like Java.
-
-    Doesn't really make send to call this a set now does it.
-    TODO Well it will be a set, just not yet.
+    More like a "LimitableOrderedPointList", but that just sounds too much like Java.
     """
 
     def __init__(self, limit=None):
