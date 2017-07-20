@@ -1,7 +1,7 @@
 from hypothesis import strategies as st
 from hypothesis import given
 
-from ppgr.utils import Point, PointList
+from ppgr.utils import Point, PointList, Rectangle
 
 
 def to_points(ps):
@@ -72,3 +72,45 @@ def test_points_nothing_lost(ps):
     points.extend(ps)
 
     assert(set(ps) == set(points.points()))
+
+
+@given(st.lists(st.tuples(st.floats(allow_nan=False), st.floats(allow_nan=False))))
+def test_points_add_works_like_extends(ps):
+    points_add = PointList()
+    points_extend = PointList()
+    ps = to_points(ps)
+
+    for p in ps:
+        points_add.add(p)
+
+    points_extend.extend(ps)
+
+    points_add_ps = []
+    points_extend_ps = []
+
+    for p in points_add.points():
+        points_add_ps.append(p)
+    for p in points_extend.points():
+        points_extend_ps.append(p)
+
+    assert(points_add_ps == points_extend_ps)
+
+
+@given(st.lists(st.tuples(st.floats(allow_nan=False), st.floats(allow_nan=False)), min_size=1))
+def test_points_bounds_not_none(ps):
+    points = PointList()
+    ps = to_points(ps)
+
+    points.extend(ps)
+
+    b = points.bounds(Rectangle(42, 13, 1337, 7))
+
+    assert(b == (42, 13, 1337, 7))
+
+
+def test_points_bounds_of_empty():
+    points = PointList()
+
+    b = points.bounds()
+
+    assert(b == (0, 0, 0, 0))
