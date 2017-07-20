@@ -83,6 +83,7 @@ class PointList:
 
     def bounds(self, b=None):
         if len(self._ps) > 0:
+            # assert that none of mins or maxs are None
             assert(4 == len(list(
                 filter(lambda x: x is not None, (
                     self._min_x, self._min_y,

@@ -23,7 +23,7 @@ class PPGR:
         self.t = 0
 
     def _prep_screen(self, max_x=None, min_x=None, max_y=None, min_y=None):
-        """preps the canvas so that it can be drawn"""
+        """Preps the canvas so that it can be drawn."""
 
         def f(l1, l2):
             try:
@@ -32,7 +32,7 @@ class PPGR:
                 return 1
 
         def scale(p):
-            """Tranform point p from internal coordinates to screen coordinates."""
+            """Transform point p from internal coordinates to screen coordinates."""
 
             return Point(
                 fact.x * (p.x - bounds.x1),
