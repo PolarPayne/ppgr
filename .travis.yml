@@ -3,5 +3,5 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-install: "pip install -r dev_requirements.txt"
-script: scripts/check
+install: make venv
+script: make test
