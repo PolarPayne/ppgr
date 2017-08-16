@@ -13,10 +13,10 @@
 I will follow semantic versioning to at least some degree.
 
 ## Examples
-`ping -i 0.5 8.8.8.8 | sed -run 's/.*icmp_seq=([0-9]+).*time=([0-9.]+).*/\1 \2/p' | ppgr --min-y 0`  
+`ping -i 0.5 8.8.8.8 | sed -run 's/.*icmp_seq=([0-9]+).*time=([0-9.]+).*/\1 \2/p' | ppgr --min-y 0`
 Shows really nicely with what kind of inputs `ppgr` already excels at.
 
-`bash -c "while true; do dig google.com reddit.com twitter.com | sed -run 's/.*Query time: ([0-9]+).*/\1/p' | tr '\n' ' '; echo; sleep 1; done" | ppgr --format t t t`  
+`bash -c "while true; do dig google.com reddit.com twitter.com | sed -run 's/.*Query time: ([0-9]+).*/\1/p' | tr '\n' ' '; echo; sleep 1; done" | ppgr --format t t t`
 Not very useful without colors/lines between points.
 
 
@@ -29,7 +29,7 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
 
 * More and better documentation
 * Do a few simple examples with asciinema
-* Create a simple page to ppgr.github.io
+* Create a simple page to ppgr.github.io (or similiar url)
 * More examples
 * Tests
 * Labels
@@ -50,4 +50,4 @@ see some feature, please create an issue in GitHub. I will also accept sane pull
     * med
     * mean
 * Support and test Python 2.7 (?)
-* Improve how points are drawn to screen (don't draw everythin again on every frame)
+* Improve how points are drawn to screen (don't draw everything again on every frame)
