@@ -20,12 +20,27 @@ help_format = """
 format of the input data, see --help-format
 """
 
-help_format_full = """
-this will contain full help about the format
-"""
+help_format_full = """Input is read line by line, as whitespace seperated numbers,
+default mode is automatic.
+
+a - automatic
+    read two values if there are two, otherwise one
+t - 1 dimensional data
+    always read one value
+d - 2 dimensional data
+    always read two values as (x, y)
+s - skip this value
+
+examples:
+t   - one 1 dimensional values on every line
+t t - two 1 dimensional values on every line,
+      aka. outputs two points per line
+s d - skip the first value on each line,
+      then read two values as (x, y) pair
+d d - read two (x, y) pairs"""
 
 help_bad_line = """
-fail if input line can't be parsed (currently does nothing)
+fail if input line can't be parsed
 """
 
 help_wait = """
@@ -39,8 +54,8 @@ add T to the value of x between data points on 1D data
 """
 
 help_limit = """
-show at most L points on the screen at the same time
-(discarding the oldest points when there are too many points)
+show at most L points on the screen at the same time,
+allows for a sliding window on the data
 """
 
 help_no_animate = """
@@ -52,16 +67,26 @@ help_input = """
 files to read the data from (defaults to stdin)
 """
 
+help_bounds_description = """
+instead of showing all points (default),
+if bounds are defined they're respected
+and only points within them are shown
+"""
+
 help_max_x = """
+limit x axis to values < X
 """
 
 help_min_x = """
+limit x axis to values > X
 """
 
 help_max_y = """
+limit y axis to values < Y
 """
 
 help_min_y = """
+limit y axis to values > Y
 """
 
 
@@ -105,24 +130,35 @@ def main():
         action="store_true",
         help=help_no_animate)
     parser.add_argument(
-        "-i", "--input",
-        nargs="+",
+        "input",
+        nargs="*",
         type=argparse.FileType("r"),
         default=[sys.stdin],
         help=help_input)
 
-    parser.add_argument(
+    bounds = parser.add_argument_group(
+        "bounds",
+        help_bounds_description)
+    bounds.add_argument(
         "--max-x",
-        type=float)
-    parser.add_argument(
+        type=float,
+        metavar="X",
+        help=help_max_x)
+    bounds.add_argument(
         "--min-x",
-        type=float)
-    parser.add_argument(
+        type=float,
+        metavar="X",
+        help=help_min_x)
+    bounds.add_argument(
         "--max-y",
-        type=float)
-    parser.add_argument(
+        type=float,
+        metavar="Y",
+        help=help_max_y)
+    bounds.add_argument(
         "--min-y",
-        type=float)
+        type=float,
+        metavar="Y",
+        help=help_min_y)
 
     argv = parser.parse_args()
 
