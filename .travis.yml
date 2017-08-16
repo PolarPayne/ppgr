@@ -3,5 +3,9 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-install: make venv
-script: make test
+install:
+- ls -la
+- ls -la *
+- ls -la **
+- pip install --upgrade pip
+script: make test bin=~/virtualenv/bin
