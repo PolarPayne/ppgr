@@ -13,8 +13,8 @@ setup(
     download_url="https://github.com/PolarPayne/ppgr/archive/{}.tar.gz".format(__version__),
     license="MIT",
     entry_points={
-          'console_scripts': [
-              'ppgr = ppgr.__main__:main'
+          "console_scripts": [
+              "ppgr = ppgr.__main__:main"
           ]
       },
     keywords=["cli", "graphing"],
