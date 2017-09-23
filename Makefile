@@ -18,7 +18,7 @@ test-pytest:
 	pipenv run -- pytest $(files_tests)
 
 test-flake8:
-	pipenv run -- flake8 setup.py $(files_all)
+	pipenv run -- flake8 $(files_all)
 
 test-isort:
 	pipenv run -- isort --check-only --line-width 119 $(files_all)
