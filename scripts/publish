@@ -11,7 +11,7 @@ git status
 git diff-index --quiet HEAD --
 
 echo
-echo "this will update version from $(head -n 1 VERSION) to $VERSION"
+echo "this will update version from $(sed -run 's/__version__ = "(.*)"/\1/p' ppgr/__init__.py) to $VERSION"
 echo
 read -p "are you sure you wish to publish? [y/N] " -n 1 -r
 echo
@@ -20,14 +20,17 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo 'For readme see `GitHub <https://github.com/PolarPayne/ppgr>`_.' > README
 
     # update and add version, tag it, and push it
-    echo "$VERSION" > VERSION
-    git add VERSION
+
+    sed -i -e "s/__version__ = \".*\"/__version__ = \"$VERSION\"/g" ppgr/__init__.py
+
+    git add ppgr/__init__.py
     git commit -m "Updated version to $VERSION"
+    git push
     git tag "$VERSION"
-    git push --tags origin master
+    git push --tags
 
     # upload to pypi
-    pipenv run -- python3 setup.py sdist upload
+    pipenv run -- python setup.py sdist upload
 else
     echo "aborting..."
     exit 1

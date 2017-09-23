@@ -1,17 +1,16 @@
 from distutils.core import setup
 
-with open("VERSION", "r") as f:
-    VERSION = f.readline().strip()
+from ppgr import __version__
 
 setup(
     name="ppgr",
     packages=["ppgr"],
-    version=VERSION,
+    version=__version__,
     description="Python Piped GRapher",
     author="Maximilian Remming",
     author_email="maxremming@gmail.com",
     url="https://github.com/PolarPayne/ppgr",
-    download_url="https://github.com/PolarPayne/ppgr/archive/{}.tar.gz".format(VERSION),
+    download_url="https://github.com/PolarPayne/ppgr/archive/{}.tar.gz".format(__version__),
     license="MIT",
     entry_points={
           'console_scripts': [
