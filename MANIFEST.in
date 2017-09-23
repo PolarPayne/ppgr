@@ -1,2 +1,2 @@
-include VERSION LICENSE README setup.py
+include LICENSE README setup.py
 recursive-include ppgr *.py
