@@ -27,7 +27,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     git push --tags origin master
 
     # upload to pypi
-    "${bin}/python3" setup.py sdist upload -r pypi
+    pipenv run -- python3 setup.py sdist upload
 else
     echo "aborting..."
     exit 1
